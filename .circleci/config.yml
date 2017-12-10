@@ -1,0 +1,9 @@
+version: 2
+jobs:
+   build:
+     docker:
+       - image: totallymoney/circleci-elm-compile
+
+     steps:
+       - checkout
+       - run: echo "hello world"
