@@ -1,21 +1,21 @@
 port module Main exposing (..)
 
-import Collage exposing (..)
-import Collage.Layout exposing (..)
+import Collage exposing (group, image, shift)
+import Collage.Layout exposing (spacer)
 import Collage.Render exposing (svg)
 import Time exposing (Time)
 import Mouse
 import AnimationFrame
 import Html exposing (Html, button, div, img)
-import Animation exposing (..)
+import Animation exposing (Animation, animation, animate, duration, retarget)
 import Debug exposing (log)
-import Task
 
 type alias Model =
     { x : Animation, y : Animation, clock : Time }
 
-port play : Float -> Cmd msg
+port play : Int -> Cmd msg
 
+model : Model
 model =
     Model
         (animation 0 |> duration Time.second)
@@ -25,7 +25,7 @@ model =
 type Msg
     = Tick Time
     | MouseMsg Mouse.Position
-    | Play
+    | PlaySound
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
@@ -35,7 +35,6 @@ update msg model =
                 clock = model.clock + dt
             in
                 ({ model | clock = clock }, Cmd.none)
-
         MouseMsg position ->
            let
                -- We need this so that plan's center moves to the new postion
@@ -50,9 +49,9 @@ update msg model =
                newX = retarget model.clock posx model.x
                newY = retarget model.clock posy model.y
            in
-               ({model | x = newX, y = newY } |> update Play)
-        Play ->
-            (model, play 1)
+               ({model | x = newX, y = newY } |> update PlaySound)
+        PlaySound ->
+            (model, play 0)
 
 view : Model -> Html Msg
 view { x, y, clock } =
@@ -63,7 +62,7 @@ view { x, y, clock } =
 
         plane = image (500, 500) "images/airplane.svg"
         circle =
-            plane |> Collage.shift pos
+            plane |> shift pos
     in
         group [
              spacer 300 300,
