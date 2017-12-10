@@ -1,2 +1,2 @@
 #!/bin/bash
-elm-make Airplane.elm --output=airplane.js
+elm-make --yes src/Airplane.elm --output=target/airplane.js

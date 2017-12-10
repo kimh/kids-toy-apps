@@ -1,0 +1,17 @@
+version: 2
+jobs:
+   build:
+     docker:
+       - image: totallymoney/circleci-elm-compile
+
+     steps:
+       - checkout
+       - run: apt-get update && apt-get install -y awscli
+       - run:
+           name: Build Airplane app
+           command: cd airplane && ./build.sh
+       - run:
+           name: Deploy
+           command: cd airplane && aws s3 cp index.html s3://airplane-toy-app/ && aws s3 cp target s3://airplane-toy-app/target --recursive && aws s3 cp audios s3://airplane-toy-app/audios --recursive && aws s3 cp images s3://airplane-toy-app/images --recursive
+
+     
