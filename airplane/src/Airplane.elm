@@ -16,21 +16,16 @@ type alias Model =
 
 port play : Float -> Cmd msg
 
-model0 =
+model =
     Model
-        (animation 0 |> from 500 |> to 0 |> duration Time.second)
-        (animation 0 |> from 0 |> to -500 |> duration Time.second)
+        (animation 0 |> duration Time.second)
+        (animation 0 |> duration Time.second)
         0
 
 type Msg
     = Tick Time
     | MouseMsg Mouse.Position
     | Play
-
-send : msg -> Cmd msg
-send msg =
-  Task.succeed msg
-  |> Task.perform identity
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
@@ -55,7 +50,7 @@ update msg model =
                newX = retarget model.clock posx model.x
                newY = retarget model.clock posy model.y
            in
-               ({model | x = newX, y = newY }, send Play)
+               ({model | x = newX, y = newY } |> update Play)
         Play ->
             (model, play 1)
 
@@ -87,7 +82,7 @@ subs =
 
 main =
     Html.program
-        { init = ( model0, Cmd.none )
+        { init = ( model, Cmd.none )
         , update = update
         , subscriptions = always subs
         , view = view
