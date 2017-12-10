@@ -6,4 +6,6 @@ jobs:
 
      steps:
        - checkout
-       - run: echo "hello world"
+       - run:
+           name: Build Airplane app
+           command: cd airplane && ./build.sh
