@@ -12,6 +12,7 @@ jobs:
            command: cd airplane && ./build.sh
        - deploy:
            command: |
+             cd airplane
              aws s3 cp index.html s3://airplane-toy-app/
 
              for file in target audios images; do
