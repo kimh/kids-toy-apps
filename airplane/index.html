@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html>
+
+    <head>
+        <script type="text/javascript" src="airplane.js"></script>
+    </head>
+
+    <body background="images/sky.jpg">
+
+    <audio id="my-audio" src="audios/flee1.mp3"></audio>
+
+    <script type="text/javascript">
+     var app = Elm.Main.fullscreen();
+
+     // Triggered from Elm
+     app.ports.play.subscribe(function(val){
+         console.log("foo", val)
+         document.getElementById('my-audio').play();
+     });
+    </script>
+    </body>
+
+</html>
