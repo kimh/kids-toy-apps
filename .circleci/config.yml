@@ -2,11 +2,11 @@ version: 2
 jobs:
    build:
      docker:
-       #- image: totallymoney/circleci-elm-compile
        - image: circleci/node:4.8.2
 
      steps:
        - checkout
+       - run: apt-get update && apt-get install -y awscli
        - run:
            name: Build Airplane app
            command: cd airplane && ./build.sh
