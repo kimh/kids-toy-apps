@@ -12,6 +12,8 @@ jobs:
            command: cd airplane && ./build.sh
        - deploy:
            command: |
-             for file in index.html target audios images; do
+             aws s3 cp index.html s3://airplane-toy-app/
+
+             for file in target audios images; do
                aws s3 cp $file s3://airplane-toy-app/$file --recursive
              done
