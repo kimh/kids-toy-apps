@@ -66,7 +66,7 @@ view { x, y, clock } =
         pos =
             ( animate clock x, animate clock y )
 
-        plane = image (500, 500) "images/airplane.svg"
+        plane = image (100, 100) "images/airplane.svg"
         circle =
             plane |> Collage.shift pos
     in
