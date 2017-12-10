@@ -10,8 +10,8 @@ jobs:
        - run:
            name: Build Airplane app
            command: cd airplane && ./build.sh
-       - run:
-           name: Deploy
-           command: cd airplane && aws s3 cp index.html s3://airplane-toy-app/ && aws s3 cp target s3://airplane-toy-app/target --recursive && aws s3 cp audios s3://airplane-toy-app/audios --recursive && aws s3 cp images s3://airplane-toy-app/images --recursive
-
-     
+       - deploy:
+           command: |
+             for file in index.html target audios images; do
+               aws s3 cp $file s3://airplane-toy-app/$file --recursive
+             done
